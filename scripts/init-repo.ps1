@@ -62,6 +62,54 @@ function Install-Choco
     }
 }
 
+#function Uninstall-AllModules {
+#  param(
+#    [Parameter(Mandatory=$true)]
+#    [string]$TargetModule,
+
+#    [Parameter(Mandatory=$true)]
+#    [string]$Version,
+
+#    [switch]$Force,
+
+#    [switch]$WhatIf
+#  )
+#  #MS code, see https://docs.microsoft.com/cs-cz/powershell/azure/uninstall-az-ps?view=azps-2.8.0#uninstall-the-azurerm-module
+  
+#  $AllModules = @()
+  
+#  'Creating list of dependencies...'
+#  $target = Find-Module $TargetModule -RequiredVersion $version
+#  $target.Dependencies | ForEach-Object {
+#    if ($_.PSObject.Properties.Name -contains 'requiredVersion') {
+#      $AllModules += New-Object -TypeName psobject -Property @{name=$_.name; version=$_.requiredVersion}
+#    }
+#    else { # Assume minimum version
+#      # Minimum version actually reports the installed dependency
+#      # which is used, not the actual "minimum dependency." Check to
+#      # see if the requested version was installed as a dependency earlier.
+#      $candidate = Get-InstalledModule $_.name -RequiredVersion $version -ErrorAction Ignore
+#      if ($candidate) {
+#        $AllModules += New-Object -TypeName psobject -Property @{name=$_.name; version=$version}
+#      }
+#      else {
+#        $availableModules = Get-InstalledModule $_.name -AllVersions
+#        Write-Warning ("Could not find uninstall candidate for {0}:{1} - module may require manual uninstall. Available versions are: {2}" -f $_.name,$version,($availableModules.Version -join ', '))
+#      }
+#    }
+#  }
+#  $AllModules += New-Object -TypeName psobject -Property @{name=$TargetModule; version=$Version}
+
+#  foreach ($module in $AllModules) {
+#    Write-Output ('Uninstalling {0} version {1}...' -f $module.name,$module.version)
+#    try {
+#      Uninstall-Module -Name $module.name -RequiredVersion $module.version -Force:$Force -ErrorAction Stop -WhatIf:$WhatIf
+#    } catch {
+#      Write-Output ("`t" + $_.Exception.Message)
+#    }
+#  }
+#}
+
 ####################################################
 # INTRO                                            #
 ####################################################
@@ -135,6 +183,57 @@ if (!(Test-Path -Path $tfExe))
     }
 }
 
+#Write-Output '... Checking for Az and AzureRm modules';
+#$versions = (Get-InstalledModule AzureRM -AllVersions -ErrorAction SilentlyContinue | Select-Object Version)
+#if ($versions.Count -gt 0)
+#{
+#    $message  = "Found AzureRm modules";
+#    $LASTEXITCODE = 0;
+#    $question = 'We need to use Az modules thus uninstall AzureRm modules. Is this OK?';
+#    if (!(PromptUserYN -Message $message -Question $question))
+#    {
+#        return;
+#    }
+#    Write-Output '... uninstalling AzureRm modules';
+#    $versions | foreach { Uninstall-AllModules -TargetModule AzureRM -Version ($_.Version) -Force }
+#}
+#if ((Get-Module -Name Az -ErrorAction SilentlyContinue) -eq $null)
+#{
+##$versions = (Get-InstalledModule AzureRM -AllVersions | Select-ObjectVersion).Count -ge 1
+#    $message  = "Need to install Az modules";
+#    $LASTEXITCODE = 0;
+#    $question = 'We need to install Az modules. Is this OK?';
+#    if (!(PromptUserYN -Message $message -Question $question))
+#    {
+#        return;
+#    }
+#    Write-Output '... installing Az modules';
+#    Install-Module -Name Az -Scope AllUsers -AllowClobber -Force
+#}
+
+#check for AZ CLI
+if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
+{
+    $message  = "Unable to find AZ CLI";
+    $LASTEXITCODE = 0;
+    $question = 'We need to install AZ CLI. Is this OK?';
+    if (!(PromptUserYN -Message $message -Question $question))
+    {
+        return;
+    }   
+    Write-Output '... installing Az CLI';
+    $tmpFile = [System.Io.Path]::Combine([System.Io.Path]::GetTempPath(), 'AzureCLI.msi');
+    if (!(Test-Path -Path $tmpFile))
+    {
+        Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile $tmpFile;
+    }
+    Start-Process $tmpFile -Wait -ArgumentList '/I AzureCLI.msi /quiet';
+    if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
+    {
+        Write-Warning 'Unable to find [AZ] command. Try restarting the powershell console and run again the whole script.'
+        return;
+    }
+}
 
 
 ####################################################
@@ -214,6 +313,10 @@ Write-Output 'Setting new permissions ...'
 
 Write-Output 'Permissions set:'
 &$tfExe git permission /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName
+
+
+az repos policy list
+
 
 Write-Output ''
 Write-Output 'EVERYTHING OK'
