@@ -104,7 +104,8 @@ if ((Get-Command -Name git -ErrorAction SilentlyContinue) -eq $null)
 }
 
 #check for TF
-if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
+$tfExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\TeamExplorer\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"
+if (!(Test-Path -Path $tfExe))
 {
     $message  = "Unable to find TF";
     $LASTEXITCODE = 0;
@@ -115,7 +116,7 @@ if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
     }
     Install-Choco;
     choco install visualstudio2019teamexplorer --force --force-dependencies --package-parameters "--passive --locale en-US" -y;
-    if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
+    if (!(Test-Path -Path $tfExe))
     {
         Write-Warning 'Unable to find [tf] command. Try restarting the powershell console and run again the whole script.'
         return;
