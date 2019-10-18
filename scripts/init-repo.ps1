@@ -154,7 +154,7 @@ if ($LASTEXITCODE -eq 0)
     {
         Write-Output 'Found remote repositories:'
         Write-Output $remoteRepositories
-        Write-Warning "the above remote repositories are not as expected ($AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName). Please run script in new empty directory.";
+        Write-Warning "the above remote repositories are not as expected ($expectedUrl). Please run script in new empty directory.";
         return;
     }
 
