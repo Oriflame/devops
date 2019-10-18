@@ -7,11 +7,9 @@ param
     [string]
     $AzureDevOpsCollection = "https://dev.azure.com/oriflame/",
 
-    [Parameter(Mandatory=$true)]
     [string]
     $DevOpsProject,
 
-    [Parameter(Mandatory=$true)]
     [string]
     $RepositoryName
 )
@@ -64,11 +62,25 @@ function Install-Choco
     }
 }
 
+####################################################
+# INTRO                                            #
+####################################################
+
 Write-Output '************ INIT REPO SCRIPT ************';
 Write-Output 'Author: jan.vilimek@oriflame.com'
 Write-Output 'Downloaded from: https://github.com/Oriflame/devops'
 Write-Output '******************************************';
 Write-Output '';
+
+if ([string]::IsNullOrEmpty($DevOpsProject))
+{
+    $DevOpsProject = Read-Host -Prompt "Please specify Azure DevOps Project, e.g. http://dev.azure.com/oriflame/{THIS}"
+}
+
+if ([string]::IsNullOrEmpty($RepositoryName))
+{
+    $RepositoryName = Read-Host -Prompt "Please specify GIT Repository Name, e.g. http://dev.azure.com/oriflame/something/_git/{THIS}"
+}
 
 ####################################################
 # prerequisities - check                           #
