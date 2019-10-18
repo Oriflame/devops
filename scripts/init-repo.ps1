@@ -149,7 +149,8 @@ if ($LASTEXITCODE -eq 0)
 {
     Write-Output 'We are currently in GIT repository, checking if remote repo is as expected'
     $remoteRepositories= git remote -v;
-    if (($remoteRepositories |% {$_ -like "*$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName*"}) -notcontains $true)
+    $expectedUrl = "$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName".Replace('https://', '')
+    if (($remoteRepositories |% {$_ -like "*$expectedUrl*"}) -notcontains $true)
     {
         Write-Output 'Found remote repositories:'
         Write-Output $remoteRepositories
