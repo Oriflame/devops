@@ -129,17 +129,17 @@ if (!(Test-Path -Path $tfExe))
 # Init starts here                                 #
 ####################################################
 
-Write-Output "********* init repository *********"
+Write-Output '********* init repository *********'
 
 #check status
 git status | Out-Null;
 if ($LASTEXITCODE -eq 0)
 {
-    Write-Output "We are currently in GIT repository, checking if remote repo is as expected"
+    Write-Output 'We are currently in GIT repository, checking if remote repo is as expected'
     $remoteRepositories= git remote -v;
     if (($remoteRepositories |% {$_ -like "*$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName*"}) -notcontains $true)
     {
-        Write-Output "Found remote repositories:"
+        Write-Output 'Found remote repositories:'
         Write-Output $remoteRepositories
         Write-Warning "the above remote repositories are not as expected ($AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName). Please run script in new empty directory.";
         return;
@@ -157,7 +157,7 @@ if ($LASTEXITCODE -eq 0)
     git clone "$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName";
     if ($LASTEXITCODE -ne 0)
     {
-        Write-Warning "Error during git clone. Please fix the error and restart the script.";
+        Write-Warning 'Error during git clone. Please fix the error and restart the script.';
         return;
     }
 }
@@ -165,7 +165,7 @@ if ($LASTEXITCODE -eq 0)
 git checkout master;
 if ($LASTEXITCODE -ne 0)
 {
-    Write-Warning "Error during git checkout. Please fix the error and restart the script.";
+    Write-Warning 'Error during git checkout. Please fix the error and restart the script.';
     return;
 }
 
@@ -176,16 +176,17 @@ if (!(($currentBranches |% {$_.Trim().Replace('*','')}) -contains 'develop'))
     git branch develop
     if ($LASTEXITCODE -ne 0)
     {
-        Write-Warning "Error during git branch. Please fix the error and restart the script.";
+        Write-Warning 'Error during git branch. Please fix the error and restart the script.';
         return;
     }
     git push origin develop
     if ($LASTEXITCODE -ne 0)
     {
-        Write-Warning "Error during git push. Please fix the error and restart the script.";
+        Write-Warning 'Error during git push. Please fix the error and restart the script.';
         return;
     }
 }
+
 
 # see https://docs.microsoft.com/en-us/azure/devops/repos/git/require-branch-folders?view=azure-devops&tabs=browser
 tf git permission /deny:CreateBranch /group:[$DevOpsProject]\Contributors /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName
