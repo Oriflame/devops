@@ -227,7 +227,7 @@ if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
     {
         Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile $tmpFile;
     }
-    Start-Process $tmpFile -Wait -ArgumentList '/I AzureCLI.msi /quiet';
+    Start-Process msiexec.exe -Wait -ArgumentList "/I `"$tmpFile`" /quiet";
     if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
     {
         Write-Warning 'Unable to find [AZ] command. Try restarting the powershell console and run again the whole script.'
