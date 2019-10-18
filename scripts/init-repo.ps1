@@ -122,37 +122,6 @@ if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
     }
 }
 
-#check for Chocolatey package provider
-#if ((Get-PackageProvider -Name Chocolatey -ListAvailable -ErrorAction SilentlyContinue) -eq $null)
-#{
-#    Write-Output '... installing chocolatey package provider.';
-#    install-packageprovider Chocolatey -force;
-#    if ((Get-PackageProvider -Name Chocolatey -ListAvailable -ErrorAction SilentlyContinue) -eq $null)
-#    {
-#        Write-Warning 'Unable to find chocolatey package provider. Try restarting the powershell console and run again the whole script.'
-#        return;
-#    }
-#    Write-Output '... chocolatey package provider installed.';
-#}else
-#{
-#    Write-Output '... chocolatey package provider found.';
-#}
-
-#check for vswhere package
-#if ((Get-Package -Name vswhere -ErrorAction SilentlyContinue) -eq $null)
-#{
-#    Write-Output '... installing vswhere.';
-#    install-package vswhere -provider Chocolatey -force;
-#    if ((Get-PackageProvider -Name Chocolatey -ListAvailable -ErrorAction SilentlyContinue) -eq $null)
-#    {
-#        Write-Warning 'Unable to find vswhere. Try restarting the powershell console and run again the whole script.'
-#        return;
-#    }
-#    Write-Output '... vswhere installed.';
-#}else
-#{
-#    Write-Output '... vswhere found.';
-#}
 
 
 ####################################################
