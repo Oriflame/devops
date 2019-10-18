@@ -235,6 +235,9 @@ if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
     }
 }
 
+az extension add --name azure-devops;
+
+
 
 ####################################################
 # Init starts here                                 #
@@ -314,9 +317,10 @@ Write-Output 'Setting new permissions ...'
 Write-Output 'Permissions set:'
 &$tfExe git permission /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName
 
-
-az repos policy list
-
+az login | Out-Null
+$repos = az repos list --org $azureDevOpsCollection --project $DevOpsProject | ConvertFrom-Json;
+$idOfRepo = $repos | where -Property name -eq $RepositoryName | select -ExpandProperty id
+$existingPolicies = az repos policy list --org $azureDevOpsCollection --project $DevOpsProject --repository-id $idOfRepo | ConvertFrom-Json;
 
 Write-Output ''
 Write-Output 'EVERYTHING OK'
