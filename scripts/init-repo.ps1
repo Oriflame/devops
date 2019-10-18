@@ -30,10 +30,7 @@ function PromptUserYN
         $Message,
 
         [string]
-        $Question,
-
-        [switch]
-        $ExitIfNo
+        $Question
     )
     if ($script:PromptUserAlwaysYes)
     {
@@ -44,10 +41,6 @@ function PromptUserYN
     $decision = $Host.UI.PromptForChoice($Message, $Question, $choices, 1);
     if ($decision -eq 1)
     {
-        if ($ExitIfNo)
-        {
-            Exit;
-        }
         return $false;
     }
     if ($decision -eq 2)
@@ -66,7 +59,7 @@ function Install-Choco
         if ((Get-Command -Name choco -ErrorAction SilentlyContinue) -eq $null)
         {
             Write-Warning 'Unable to find [choco] command. Try restarting the powershell console and run again the whole script.'
-            exit -1;
+            return;
         }
     }
 }
@@ -87,7 +80,7 @@ Write-Output 'Prerequisities check...';
 if ((Get-Command -Name Get-PackageProvider -ErrorAction SilentlyContinue) -eq $null)
 {
     Write-Warning "Unable to find Get-PackageProvider... do you have WMF 5.0 installed?"
-    exit -1;
+    return;
 }
 Write-Output '... WMF 5.0 found.';
 
@@ -97,13 +90,16 @@ if ((Get-Command -Name git -ErrorAction SilentlyContinue) -eq $null)
     $message  = "Unable to find GIT";
     $LASTEXITCODE = 0;
     $question = 'We need to install GIT (via Chocolatey). Is this OK?';
-    PromptUserYN -Message $message -Question $question -ExitIfNo | Out-Null;
+    if (!(PromptUserYN -Message $message -Question $question))
+    {
+        return;
+    }
     Install-Choco;
     choco install git.install --force --force-dependencies -y;
     if ((Get-Command -Name git -ErrorAction SilentlyContinue) -eq $null)
     {
         Write-Warning 'Unable to find [git] command. Try restarting the powershell console and run again the whole script.'
-        exit -1;
+        return;
     }
 }
 
@@ -113,13 +109,16 @@ if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
     $message  = "Unable to find TF";
     $LASTEXITCODE = 0;
     $question = 'We need to install Team Explorer = TF.EXE (via Chocolatey). Is this OK?';
-    PromptUserYN -Message $message -Question $question -ExitIfNo | Out-Null;
+    if (!(PromptUserYN -Message $message -Question $question))
+    {
+        return;
+    }
     Install-Choco;
     choco install visualstudio2019teamexplorer --force --force-dependencies --package-parameters "--passive --locale en-US" -y;
     if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
     {
         Write-Warning 'Unable to find [tf] command. Try restarting the powershell console and run again the whole script.'
-        exit -1;
+        return;
     }
 }
 
@@ -131,7 +130,7 @@ if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
 #    if ((Get-PackageProvider -Name Chocolatey -ListAvailable -ErrorAction SilentlyContinue) -eq $null)
 #    {
 #        Write-Warning 'Unable to find chocolatey package provider. Try restarting the powershell console and run again the whole script.'
-#        exit -1;
+#        return;
 #    }
 #    Write-Output '... chocolatey package provider installed.';
 #}else
@@ -147,7 +146,7 @@ if ((Get-Command -Name tf -ErrorAction SilentlyContinue) -eq $null)
 #    if ((Get-PackageProvider -Name Chocolatey -ListAvailable -ErrorAction SilentlyContinue) -eq $null)
 #    {
 #        Write-Warning 'Unable to find vswhere. Try restarting the powershell console and run again the whole script.'
-#        exit -1;
+#        return;
 #    }
 #    Write-Output '... vswhere installed.';
 #}else
@@ -173,7 +172,7 @@ if ($LASTEXITCODE -eq 0)
         Write-Output "Found remote repositories:"
         Write-Output $remoteRepositories
         Write-Warning "the above remote repositories are not as expected ($AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName). Please run script in new empty directory.";
-        exit -1;
+        return;
     }
 
 }else
@@ -181,12 +180,15 @@ if ($LASTEXITCODE -eq 0)
     $message  = "Repository not initialized (code: $LASTEXITCODE)";
     $LASTEXITCODE = 0;
     $question = 'We need to download repository and init it in the current folder. Is this OK?';
-    PromptUserYN -Message $message -Question $question -ExitIfNo | Out-Null;
+    if (!(PromptUserYN -Message $message -Question $question))
+    {
+        return;
+    }
     git clone "$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName";
     if ($LASTEXITCODE -ne 0)
     {
         Write-Warning "Error during git clone. Please fix the error and restart the script.";
-        exit -1;
+        return;
     }
 }
 #switch to master branch
@@ -194,7 +196,7 @@ git checkout master;
 if ($LASTEXITCODE -ne 0)
 {
     Write-Warning "Error during git checkout. Please fix the error and restart the script.";
-    exit -1;
+    return;
 }
 
 $currentBranches=git branch;
@@ -205,13 +207,13 @@ if (!(($currentBranches |% {$_.Trim().Replace('*','')}) -contains 'develop'))
     if ($LASTEXITCODE -ne 0)
     {
         Write-Warning "Error during git branch. Please fix the error and restart the script.";
-        exit -1;
+        return;
     }
     git push origin develop
     if ($LASTEXITCODE -ne 0)
     {
         Write-Warning "Error during git push. Please fix the error and restart the script.";
-        exit -1;
+        return;
     }
 }
 
