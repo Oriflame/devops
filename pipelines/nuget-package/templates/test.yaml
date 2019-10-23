@@ -1,0 +1,33 @@
+
+# about this template: it contains steps needed for testing the solution
+
+# guidance for parameters:
+# - all of parameters should be passed from calling pipeline
+# - all parameters are replaced in the template when the template is loaded = it's a simple replace
+# - therefore all usages needs to be surrounded by ''
+
+parameters:
+  pathToTestProjects: '! need to be set by pipeline !'
+  buildConfiguration: '! need to be set by pipeline !'
+  noUnitTests: '! need to be set by pipeline !'
+
+steps:
+
+- ${{ if ne(parameters.noUnitTests, 'true') }}:
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: '${{ parameters.pathToTestProjects }}'
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --logger trx --results-directory $(Build.StagingDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+      publishTestResults: false
+  
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    inputs:
+      testResultsFormat: VSTest
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+      searchFolder: '$(Build.StagingDirectory)'
+      mergeTestResults: true
+    condition: succeededOrFailed()

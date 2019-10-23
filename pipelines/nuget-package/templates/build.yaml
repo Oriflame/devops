@@ -1,0 +1,29 @@
+# about this template: it contains steps needed for restoring and building the solution
+
+# guidance for parameters:
+# - all of parameters should be passed from calling pipeline
+# - all parameters are replaced in the template when the template is loaded = it's a simple replace
+# - therefore all usages needs to be surrounded by ''
+
+parameters:
+  pathToProjects: '! need to be set by pipeline !'
+  nugetFeedFromDevops: '! need to be set by pipeline !'
+  verbosityRestore: '! need to be set by pipeline !'
+  buildConfiguration: '! need to be set by pipeline !'
+
+steps:
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '${{ parameters.pathToProjects }}'
+    vstsFeed: '${{ parameters.nugetFeedFromDevops }}'
+    verbosityRestore: '${{ parameters.verbosityRestore }}'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '${{ parameters.pathToProjects }}'
+    arguments: '--configuration ${{ parameters.buildConfiguration }} --no-restore '
+  condition: and(succeeded(), ne(variables['useSonarQube'], 'true'))
