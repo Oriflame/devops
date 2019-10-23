@@ -16,6 +16,19 @@ It does following:
 * if **develop** branch is not yet created it is
 * it updates proper rights in the repo
 
+
+## how to test it locally
+
+Before any commit it is recommended to test the script locally. Navigate to an empty directory and run
+
+ ```
+ # tested on windows 10
+ $repoSrc = "$env:USERPROFILE/source/repos/devops/scripts"
+ . "$repoSrc/init-repo.ps1" -DevOpsProject XXX -RepositoryName XXX -dependenciesRepositoryUrl "$repoSrc/init-repo/"
+ ```
+
+ Please note: expected location of GIT repositories is in your profile. You need also to replace XXX with valid project name and repository name etc.
+
 **How to call it:**
 
 Start powershell.exe with elevated user rights in any writeable directory and copy/paste following:
