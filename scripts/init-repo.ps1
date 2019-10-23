@@ -77,7 +77,10 @@ az login | Out-Null; #TODO: too chatty output..its not easy to reduce :(
 Invoke-InitRepoSectionInitCIBuild -success ([ref]$success) -ciBuildId ([ref]$ciBuildId);
 if (ErrorOccurred -success ([ref]$success)){return;}
 
-Invoke-InitRepoSectionInitBranchPolicies -success ([ref]$success) -ciBuildId $ciBuildId -branchPoliciesForDevelop $branchPoliciesForDevelop -branchPoliciesForMaster $branchPoliciesForMaster;
+Invoke-InitRepoSectionInitBranchPolicies -success ([ref]$success) -ciBuildId $ciBuildId -branchName develop -branchPolicies $branchPoliciesForDevelop;
+if (ErrorOccurred -success ([ref]$success)){return;}
+
+Invoke-InitRepoSectionInitBranchPolicies -success ([ref]$success) -ciBuildId $ciBuildId -branchName master -branchPolicies $branchPoliciesForMaster;
 if (ErrorOccurred -success ([ref]$success)){return;}
 
 Write-Output ''

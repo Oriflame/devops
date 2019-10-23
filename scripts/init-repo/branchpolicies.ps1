@@ -13,13 +13,14 @@ function Invoke-InitRepoSectionInitBranchPolicies
         [Parameter(Mandatory=$true)]
         $ciBuildId,
 
+        [string]
         [Parameter(Mandatory=$true)]
-        $branchPoliciesForDevelop,
+        $branchName,
 
         [Parameter(Mandatory=$true)]
-        $branchPoliciesForMaster
+        $branchPolicies
     )
-    Write-Output '********* init branch policies *********'
+    Write-Output "********* init branch policies for $branchName *********"
 
     #see also https://www.visualstudiogeeks.com/azure/devops/azure-devops-cli-to-view-branch-policies
     Write-Output 'getting repository...'
@@ -35,10 +36,7 @@ function Invoke-InitRepoSectionInitBranchPolicies
 
     Write-Output 'creating standard repository policies...'
 
-    #load policy template
-    $policies = Get-Content -Path C:\Users\JVilimek\Source\Repos\devops\scripts\branch-policies-develop.json | ConvertFrom-Json
-    $tmpPolicyFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "tmp-policy.config");
-    foreach($policy in $policies)
+    foreach($policy in $branchPolicies)
     {
         Write-Output "Preparing template policy $($policy.type.displayName)..."
         if ($policy.settings.buildDefinitionId -eq -1)
