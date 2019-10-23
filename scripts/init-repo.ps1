@@ -292,7 +292,19 @@ Write-Output 'Permissions set:'
 &$tfExe git permission /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName
 
 
+Write-Output '********* AZ CLI LOGIN *********'
+az login --quite | Out-Null; #TODO: too chatty output..its not easy to reduce :(
+
 Write-Output '********* init CI BUILD *********'
+
+Write-Output 'create standard CI build...'
+$existingCIBuildPipeline = az pipelines build definition list --org $azureDevOpsCollection --project $DevOpsProject -name "$RepositoryName-CI" | ConvertFrom-Json
+if ($existingCIBuildPipeline.Count -le 0)
+{
+    #no CI build definition exists = create!
+
+}
+$ciBuild = $existingCIBuildPipeline[0].id;
 
 Write-Output '********* init branch policies *********'
 
