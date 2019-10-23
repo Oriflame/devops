@@ -29,7 +29,7 @@ function Invoke-InitRepoSectionInitBranchPolicies
     #$existingPolicies = az repos policy list --org $azureDevOpsCollection --project $DevOpsProject --query "[?settings.scope[0].repositoryId=='$idOfRepo']"
 
     Write-Output 'getting existing repository policies...'
-    $existingPolicies = az repos policy list --org $azureDevOpsCollection --project $DevOpsProject --query "[?settings.scope[0].repositoryId=='$($repo.id)' && settings.scope[0].refName=='refs/heads/develop']" | ConvertFrom-Json
+    $existingPolicies = az repos policy list --org $azureDevOpsCollection --project $DevOpsProject --query "[?settings.scope[0].repositoryId=='$($repo.id)' && settings.scope[0].refName=='refs/heads/$branchName']" | ConvertFrom-Json
     Write-Output 'cleaning up the policies...'
     $existingPolicies | select -ExpandProperty id |% { az repos policy delete --id $_ --org $azureDevOpsCollection --project $DevOpsProject --yes }
 
