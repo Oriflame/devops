@@ -14,6 +14,9 @@ param
     $RepositoryName
 )
 $ErrorActionPreference='Stop';
+$Error.Clear();
+$LASTEXITCODE = 0;
+
 
 ####################################################
 # functions                                        #
@@ -328,19 +331,22 @@ $policies = Get-Content -Path C:\Users\JVilimek\Source\Repos\devops\scripts\bran
 $tmpPolicyFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "tmp-policy.config");
 foreach($policy in $policies)
 {
+    Write-Output "Preparing template policy $($policy.type.displayName)..."
     if ($policy.settings.buildDefinitionId -eq -1)
     {
         #buildDefinitionId is defined in settings and set to default value => replace it with valid definition id
         $policy.settings.buildDefinitionId = $ciBuildId
     }
-    if ($policy.settings.scope.repositoryId -eq "00000000-0000-0000-0000-000000000000")
+    if ($policy.settings.scope[0].repositoryId -eq "00000000-0000-0000-0000-000000000000")
     {
         #repositoryId is defined in settings and set to default value => replace it with valid definition id
-        $policy.settings.scope.repositoryId = $idOfRepo
+        $policy.settings.scope[0].repositoryId = $idOfRepo
     }
     if (Test-Path -Path $tmpPolicyFile) {Remove-Item -Path $tmpPolicyFile -Force}
-    $policy | ConvertTo-Json -Depth 10 | Set-Content -Path $tmpPolicyFile -Encoding UTF8;
-    az repos policy create --org $azureDevOpsCollection --project $DevOpsProject --config $tmpPolicyFile;
+    $policy | ConvertTo-Json -Depth 10 | Set-Content -Path $tmpPolicyFile -Encoding Ascii;
+    Write-Output "Applying policy..."
+    az repos policy create --org $azureDevOpsCollection --project $DevOpsProject --config $tmpPolicyFile | Out-Null;
+    if ($LASTEXITCODE -ne 0) {return;}
 }
 #cleanup
 if (Test-Path -Path $tmpPolicyFile) {Remove-Item -Path $tmpPolicyFile -Force}
