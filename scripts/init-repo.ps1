@@ -26,7 +26,7 @@ function GetResource ([string]$nameOfScript)
 {
     $url = "${dependenciesRepositoryUrl}$nameOfScript";
     Write-Verbose "Downloading resource $url";
-    return (New-Object System.Net.WebClient).DownloadString();
+    return (New-Object System.Net.WebClient).DownloadString($url);
 }
 
 #import functions from remote/local repo
