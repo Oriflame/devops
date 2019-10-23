@@ -293,7 +293,7 @@ Write-Output 'Permissions set:'
 
 
 Write-Output '********* AZ CLI LOGIN *********'
-az login --quite | Out-Null; #TODO: too chatty output..its not easy to reduce :(
+az login | Out-Null; #TODO: too chatty output..its not easy to reduce :(
 
 Write-Output '********* init CI BUILD *********'
 
