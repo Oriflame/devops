@@ -219,11 +219,12 @@ Write-Output '********* init repository *********'
 
 #check status
 git status | Out-Null;
+$AzureDevOpsGirRepoUrl = "$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName";
 if ($LASTEXITCODE -eq 0)
 {
     Write-Output 'We are currently in GIT repository, checking if remote repo is as expected'
     $remoteRepositories= git remote -v;
-    $expectedUrl = "$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName".Replace('https://', '')
+    $expectedUrl = $AzureDevOpsGirRepoUrl.Replace('https://', '')
     if (($remoteRepositories |% {$_ -like "*$expectedUrl*"}) -notcontains $true)
     {
         Write-Output 'Found remote repositories:'
@@ -241,7 +242,7 @@ if ($LASTEXITCODE -eq 0)
     {
         return;
     }
-    git clone "$AzureDevOpsCollection$DevOpsProject/_git/$RepositoryName";
+    git clone $AzureDevOpsGirRepoUrl;
     if ($LASTEXITCODE -ne 0)
     {
         Write-Warning 'Error during git clone. Please fix the error and restart the script.';
