@@ -183,34 +183,6 @@ if (!(Test-Path -Path $tfExe))
     }
 }
 
-#Write-Output '... Checking for Az and AzureRm modules';
-#$versions = (Get-InstalledModule AzureRM -AllVersions -ErrorAction SilentlyContinue | Select-Object Version)
-#if ($versions.Count -gt 0)
-#{
-#    $message  = "Found AzureRm modules";
-#    $LASTEXITCODE = 0;
-#    $question = 'We need to use Az modules thus uninstall AzureRm modules. Is this OK?';
-#    if (!(PromptUserYN -Message $message -Question $question))
-#    {
-#        return;
-#    }
-#    Write-Output '... uninstalling AzureRm modules';
-#    $versions | foreach { Uninstall-AllModules -TargetModule AzureRM -Version ($_.Version) -Force }
-#}
-#if ((Get-Module -Name Az -ErrorAction SilentlyContinue) -eq $null)
-#{
-##$versions = (Get-InstalledModule AzureRM -AllVersions | Select-ObjectVersion).Count -ge 1
-#    $message  = "Need to install Az modules";
-#    $LASTEXITCODE = 0;
-#    $question = 'We need to install Az modules. Is this OK?';
-#    if (!(PromptUserYN -Message $message -Question $question))
-#    {
-#        return;
-#    }
-#    Write-Output '... installing Az modules';
-#    Install-Module -Name Az -Scope AllUsers -AllowClobber -Force
-#}
-
 #check for AZ CLI
 if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
 {
