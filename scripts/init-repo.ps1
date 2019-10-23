@@ -1,6 +1,20 @@
-#######################################
-# this should init any GIT repository #
-#######################################
+<#
+.DESCRIPTION
+Initialize zure DevOps GIT repository with branches, policies, rights, build pipelines..see https://github.com/Oriflame/devops/blob/master/docs/init-repo.md
+
+.PARAMETER AzureDevOpsCollection
+Url of Azure DevOps organisation, e.g. https://dev.azure.com/organisationName/
+
+.PARAMETER DevOpsProject
+Name of the DevOps project, e.g. http://dev.azure.com/oriflame/{THIS}
+
+.PARAMETER RepositoryName
+Name of the GIT Repository, e.g. http://dev.azure.com/oriflame/something/_git/{THIS}
+
+.PARAMETER dependenciesRepositoryUrl
+Url of dependend scripts and resources, e.g. url from GitHub
+
+#>
 [cmdletbinding()]
 param
 (
@@ -14,7 +28,7 @@ param
     $RepositoryName,
 
     [string]
-    $dependenciesRepositoryUrl = "https://raw.githubusercontent.com/Oriflame/devops/feature/repository-init-script/scripts/init-repo/" #TBD: once in master, switch to master version
+    $DependenciesRepositoryUrl = "https://raw.githubusercontent.com/Oriflame/devops/master/scripts/init-repo/"
 )
 $ErrorActionPreference='Stop';
 $Error.Clear();
@@ -24,7 +38,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;
 
 function GetResource ([string]$nameOfScript)
 {
-    $url = "${dependenciesRepositoryUrl}$nameOfScript";
+    $url = "${DependenciesRepositoryUrl}$nameOfScript";
     Write-Verbose "Downloading resource $url";
     return (New-Object System.Net.WebClient).DownloadString($url);
 }
