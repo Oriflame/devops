@@ -14,7 +14,7 @@ param
     $RepositoryName,
 
     [string]
-    $dependenciesRepositoryUrl = "https://raw.githubusercontent.com/Oriflame/devops/feature/repository-init-script/scripts/init-script/"
+    $dependenciesRepositoryUrl = "https://raw.githubusercontent.com/Oriflame/devops/feature/repository-init-script/scripts/init-repo/" #TBD: once in master, switch to master version
 )
 $ErrorActionPreference='Stop';
 $Error.Clear();
@@ -24,7 +24,9 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;
 
 function GetResource ([string]$nameOfScript)
 {
-    return (New-Object System.Net.WebClient).DownloadString("${dependenciesRepositoryUrl}$nameOfScript");
+    $url = "${dependenciesRepositoryUrl}$nameOfScript";
+    Write-Verbose "Downloading resource $url";
+    return (New-Object System.Net.WebClient).DownloadString();
 }
 
 #import functions from remote/local repo
