@@ -215,7 +215,7 @@ az extension add --name azure-devops;
 # Init starts here                                 #
 ####################################################
 
-Write-Output '********* init repository *********'
+Write-Output '********* init GIT repository *********'
 
 #check status
 git status | Out-Null;
@@ -275,6 +275,7 @@ if (!(($currentBranches |% {$_.Trim().Replace('*','')}) -contains 'develop'))
     }
 }
 
+Write-Output '********* init GIT branch permissions *********'
 
 # see https://docs.microsoft.com/en-us/azure/devops/repos/git/require-branch-folders?view=azure-devops&tabs=browser
 Write-Output 'Cleaning previous explicit permissions ...'
@@ -290,10 +291,11 @@ Write-Output 'Setting new permissions ...'
 Write-Output 'Permissions set:'
 &$tfExe git permission /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName
 
-az login | Out-Null
-$repos = az repos list --org $azureDevOpsCollection --project $DevOpsProject | ConvertFrom-Json;
-$idOfRepo = $repos | where -Property name -eq $RepositoryName | select -ExpandProperty id
-$existingPolicies = az repos policy list --org $azureDevOpsCollection --project $DevOpsProject --repository-id $idOfRepo | ConvertFrom-Json;
+
+Write-Output '********* init CI BUILD *********'
+
+Write-Output '********* init branch policies *********'
+
 
 Write-Output ''
 Write-Output 'EVERYTHING OK'
