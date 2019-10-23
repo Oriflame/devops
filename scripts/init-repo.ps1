@@ -76,14 +76,15 @@ if ([string]::IsNullOrEmpty($RepositoryName))
 }
 
 [bool]$success = $false;
+[string]$tfExe;
 
-Invoke-InitRepoSectionPrerequisities -success ([ref]$success);
+Invoke-InitRepoSectionPrerequisities -success ([ref]$success) -tfExe ([ref]$tfExe);
 if (ErrorOccurred -success ([ref]$success)){return;}
 
 Invoke-InitRepoSectionGitRepo -success ([ref]$success);
 if (ErrorOccurred -success ([ref]$success)){return;}
 
-Invoke-InitRepoSectionBranchPermissions -success ([ref]$success);
+Invoke-InitRepoSectionBranchPermissions -success ([ref]$success) -tfExe $tfExe;
 if (ErrorOccurred -success ([ref]$success)){return;}
 
 Write-Output '********* AZ CLI LOGIN *********'

@@ -6,7 +6,10 @@ function Invoke-InitRepoSectionBranchPermissions
     (
         [ref]
         [Parameter(Mandatory=$true)]
-        $success
+        $success,
+
+        [string]
+        $tfExe
     )
     Write-Output '********* init GIT branch permissions *********'
 

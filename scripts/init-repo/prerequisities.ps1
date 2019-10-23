@@ -9,7 +9,11 @@ function Invoke-InitRepoSectionPrerequisities
     (
         [ref]
         [Parameter(Mandatory=$true)]
-        $success
+        $success,
+
+        [ref]
+        [Parameter(Mandatory=$true)]
+        $tfExe
     )
     Write-Output 'Prerequisities check...';
     # check for WMF 5.0 +
@@ -40,8 +44,8 @@ function Invoke-InitRepoSectionPrerequisities
     }
 
     #check for TF
-    $tfExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\TeamExplorer\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"
-    if (!(Test-Path -Path $tfExe))
+    $tfExe.Value = "C:\Program Files (x86)\Microsoft Visual Studio\2019\TeamExplorer\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"
+    if (!(Test-Path -Path ($tfExe.Value)))
     {
         $message  = "Unable to find TF";
         $LASTEXITCODE = 0;
@@ -52,7 +56,7 @@ function Invoke-InitRepoSectionPrerequisities
         }
         Install-Choco;
         choco install visualstudio2019teamexplorer --force --force-dependencies --package-parameters "--passive --locale en-US" -y;
-        if (!(Test-Path -Path $tfExe))
+        if (!(Test-Path -Path ($tfExe.Value)))
         {
             Write-Warning 'Unable to find [tf] command. Try restarting the powershell console and run again the whole script.'
             return;
