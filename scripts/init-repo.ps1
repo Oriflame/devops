@@ -90,7 +90,7 @@ if (ErrorOccurred -success ([ref]$success)){return;}
 Write-Output '********* AZ CLI LOGIN *********'
 az login | Out-Null; #TODO: too chatty output..its not easy to reduce :(
 
-[int] $ciBuildId
+[int] $ciBuildId = -1
 Invoke-InitRepoSectionInitCIBuild -success ([ref]$success) -ciBuildId ([ref]$ciBuildId);
 if (ErrorOccurred -success ([ref]$success)){return;}
 
