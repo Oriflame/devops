@@ -2,9 +2,10 @@
 Repository initialization.
 
 Input parameters:
-* **$AzureDevOpsCollection**: url to Azure DevOps, e.g. https://dev.azure.com/oriflame/ (optional)
-* **$DevOpsProject**: name of the project in Azure DevOps, e.g. http://dev.azure.com/oriflame/{THIS}
-* **$RepositoryName**: name of the project in Azure DevOps, e.g. http://dev.azure.com/oriflame/something/_git/{THIS}
+* **AzureDevOpsCollection**: Url of Azure DevOps organization, e.g. 'https://dev.azure.com/oriflame/' (optional)
+* **DevOpsProject**: Name of the project in Azure DevOps, like the part of the url http://dev.azure.com/oriflame/{DevOpsProject}, e.g. 'MyProject'
+* **RepositoryName**: name of the project in Azure DevOps, e.g. http://dev.azure.com/oriflame/something/_git/{THIS}
+* **dependenciesRepositoryUrl**: Url of dependend scripts and resources, e.g. url from GitHub 'https://raw.githubusercontent.com/Oriflame/devops/master/scripts/init-repo/' (which is default value), or your local repo path (optional)
 
 It does following:
 

@@ -3,16 +3,16 @@
 Initialize zure DevOps GIT repository with branches, policies, rights, build pipelines..see https://github.com/Oriflame/devops/blob/master/docs/init-repo.md
 
 .PARAMETER AzureDevOpsCollection
-Url of Azure DevOps organisation, e.g. https://dev.azure.com/organisationName/
+Url of Azure DevOps organization, e.g. 'https://dev.azure.com/oriflame/' (optional)
 
 .PARAMETER DevOpsProject
-Name of the DevOps project, e.g. http://dev.azure.com/oriflame/{THIS}
+Name of the project in Azure DevOps, like the part of the url http://dev.azure.com/oriflame/{DevOpsProject}, e.g. 'MyProject'
 
 .PARAMETER RepositoryName
-Name of the GIT Repository, e.g. http://dev.azure.com/oriflame/something/_git/{THIS}
+Name of the GIT Repository the project, like the part of the url http://dev.azure.com/oriflame/something/_git/{RepositoryName}, e.g. 'MyRepository'
 
 .PARAMETER dependenciesRepositoryUrl
-Url of dependend scripts and resources, e.g. url from GitHub
+Url of dependend scripts and resources, e.g. url from GitHub 'https://raw.githubusercontent.com/Oriflame/devops/master/scripts/init-repo/' (which is default value), or your local repo path (optional)
 
 #>
 [cmdletbinding()]
