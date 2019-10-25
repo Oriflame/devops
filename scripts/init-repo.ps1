@@ -67,12 +67,12 @@ Write-Output '';
 
 if ([string]::IsNullOrEmpty($DevOpsProject))
 {
-    $DevOpsProject = Read-Host -Prompt "Please specify Azure DevOps Project, e.g. http://dev.azure.com/oriflame/{THIS}"
+    $DevOpsProject = Read-Host -Prompt 'Please specify Azure DevOps Project, e.g. http://dev.azure.com/oriflame/{DevOpsProject}'
 }
 
 if ([string]::IsNullOrEmpty($RepositoryName))
 {
-    $RepositoryName = Read-Host -Prompt "Please specify GIT Repository Name, e.g. http://dev.azure.com/oriflame/something/_git/{THIS}"
+    $RepositoryName = Read-Host -Prompt 'Please specify GIT Repository Name, e.g. http://dev.azure.com/oriflame/something/_git/{RepositoryName}'
 }
 
 [bool]$success = $false;
