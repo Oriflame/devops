@@ -76,7 +76,7 @@ if ([string]::IsNullOrEmpty($RepositoryName))
 }
 
 [bool]$success = $false;
-[string]$tfExe;
+[string]$tfExe = '';
 
 Invoke-InitRepoSectionPrerequisities -success ([ref]$success) -tfExe ([ref]$tfExe);
 if (ErrorOccurred -success ([ref]$success)){return;}
