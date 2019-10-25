@@ -64,7 +64,7 @@
         "isEnabled": true,
         "settings": {
             "allowDownvotes": false,
-            "creatorVoteCounts": true,
+            "creatorVoteCounts": false,
             "minimumApproverCount": 1,
             "resetOnSourcePush": true,
             "scope": [
