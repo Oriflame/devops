@@ -1,4 +1,14 @@
+<#
+.DESCRIPTION
+Initialize branch permissions. See Docs/init-repo.md
 
+.PARAMETER success
+Should reference the global success variable: If the step succeed, it will be set to true.
+
+.PARAMETER tfExe
+Path to tf.exe. Should be passed from prerequisities step.
+
+#>
 function Invoke-InitRepoSectionBranchPermissions
 {
     [CmdLetBinding()]

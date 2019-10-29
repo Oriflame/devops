@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-Initialize zure DevOps GIT repository with branches, policies, rights, build pipelines..see https://github.com/Oriflame/devops/blob/master/docs/init-repo.md
+Initialize Azure DevOps GIT repository with branches, policies, rights, build pipelines..see https://github.com/Oriflame/devops/blob/master/docs/init-repo.md
 
 .PARAMETER AzureDevOpsCollection
 Url of Azure DevOps organization, e.g. 'https://dev.azure.com/oriflame/' (optional)

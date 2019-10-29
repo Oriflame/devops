@@ -1,4 +1,11 @@
+<#
+.DESCRIPTION
+Initialize git repo. See Docs/init-repo.md
 
+.PARAMETER success
+Should reference the global success variable: If the step succeed, it will be set to true.
+
+#>
 function Invoke-InitRepoSectionGitRepo
 {
     [CmdLetBinding()]

@@ -1,4 +1,14 @@
+<#
+.DESCRIPTION
+Initialize CI build. See Docs/init-repo.md
 
+.PARAMETER success
+Should reference the global success variable: If the step succeed, it will be set to true.
+
+.PARAMETER ciBuildId
+Returns the id of the CI build.
+
+#>
 function Invoke-InitRepoSectionInitCIBuild
 {
     [CmdLetBinding()]

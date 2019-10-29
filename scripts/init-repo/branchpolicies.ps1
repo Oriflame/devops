@@ -1,5 +1,20 @@
+<#
+.DESCRIPTION
+Initialize branch policies. May be called multiple times for different branches. See Docs/init-repo.md
 
+.PARAMETER success
+Should reference the global success variable: If the step succeed, it will be set to true.
 
+.PARAMETER ciBuildId
+Id of the CI build from *InitCIBuild step.
+
+.PARAMETER branchName
+Name of the branch to initialize. E.g. develop
+
+.PARAMETER branchPolicies
+Definition of the policies loaded from respective JSON file (e.g. scripts/init-repo/resources/branch-policies-develop.json) already converted to object.
+
+#>
 function Invoke-InitRepoSectionInitBranchPolicies
 {
     [CmdLetBinding()]

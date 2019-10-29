@@ -1,8 +1,14 @@
-####################################################
-# prerequisities - check                           #
-####################################################
+<#
+.DESCRIPTION
+Checks for prerequisities. See Docs/init-repo.md
 
-function Invoke-InitRepoSectionPrerequisities
+.PARAMETER success
+Should reference the global success variable: If the step succeed, it will be set to true.
+
+.PARAMETER tfExe
+Returns the id of the path to tf.exe.
+
+#>function Invoke-InitRepoSectionPrerequisities
 {
     [CmdLetBinding()]
     param
