@@ -17,7 +17,14 @@ function Invoke-InitRepoSectionInitCIBuild
     $existingCIBuildPipeline = az pipelines build definition list --org $azureDevOpsCollection --project $DevOpsProject --name "$RepositoryName-CI" | ConvertFrom-Json
     if ($existingCIBuildPipeline.Count -le 0)
     {
-        Write-Output 'create standard CI build...'
+        $message  = "Unable to find $RepositoryName-CI build";
+        $LASTEXITCODE = 0;
+        $question = 'We need to create CI build so we can use it later in branch policies. Is this OK?';
+        if (!(PromptUserYN -Message $message -Question $question))
+        {
+            return;
+        }
+        Write-Output 'creating standard CI build...'
         #no CI build definition exists = create!
         Write-Warning "TBD: need to create CI BUILD!"
         return
