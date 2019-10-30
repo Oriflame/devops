@@ -14,7 +14,7 @@ It does following (you need to confirm every action):
   * in case TF tool is missing (C:\Program Files (x86)\Microsoft Visual Studio\2019\TeamExplorer\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe is searched) it installst [Team Explorer](https://chocolatey.org/packages/visualstudio2017teamexplorer)
 * it checks, if we are in GIT repo and if not, it clones the repo locally from provided project and repository name
 * it switches to **master** branch
-* if **develop** branch is not yet created it is
+* if **develop** branch does not exist it is created
 * it updates proper rights in the repo
   * contributors are allowed to create branches only under feature/* and user/*
   * only project admins can create release/* branches.
