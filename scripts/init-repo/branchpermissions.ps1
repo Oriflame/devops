@@ -40,16 +40,20 @@ function Invoke-InitRepoSectionBranchPermissions
     if ($LASTEXITCODE -ne 0) {return;}
 
     Write-Output 'Setting new permissions ...'
+    Write-Output ' ... deny contributors creating branches under * path'
     &$tfExe git permission /deny:CreateBranch /group:[$DevOpsProject]\Contributors /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName | Out-Null
     if ($LASTEXITCODE -ne 0) {return;}
 
+    Write-Output ' ... allow contributors creating branches under feature/* path'
     &$tfExe git permission /allow:CreateBranch /group:[$DevOpsProject]\Contributors /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName /branch:feature | Out-Null
     if ($LASTEXITCODE -ne 0) {return;}
 
+    Write-Output ' ... allow contributors creating branches under user/* path'
     &$tfExe git permission /allow:CreateBranch /group:[$DevOpsProject]\Contributors /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName /branch:user | Out-Null
     if ($LASTEXITCODE -ne 0) {return;}
 
-    &$tfExe git permission /allow:CreateBranch /group:"[$DevOpsProject]\Project Administrators" /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName /branch:user | Out-Null
+    Write-Output ' ... allow administrators creating branches under release/* path'
+    &$tfExe git permission /allow:CreateBranch /group:"[$DevOpsProject]\Project Administrators" /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName /branch:release | Out-Null
     if ($LASTEXITCODE -ne 0) {return;}
 
     Write-Output 'Permissions set:'
