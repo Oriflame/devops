@@ -32,7 +32,6 @@ function Invoke-InitRepoSectionGitRepo
             Write-Warning "the above remote repositories are not as expected ($expectedUrl). Please run script in new empty directory.";
             return;
         }
-
     }else
     {
         $message  = "Repository not initialized (code: $LASTEXITCODE)";
