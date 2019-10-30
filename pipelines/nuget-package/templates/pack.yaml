@@ -6,8 +6,8 @@
 # - therefore all usages needs to be surrounded by ''
 
 parameters:
-  pathToProjects: '! need to be set by pipeline !'
-  buildConfiguration: '! need to be set by pipeline !'
+  pathToProjects: '! need to be set by pipeline !' # sample value: '$(Build.SourcesDirectory)/src/**/*.csproj'
+  buildConfiguration: '! need to be set by pipeline !' #sample value: 'release'
 
 steps:
 - task: DotNetCoreCLI@2
