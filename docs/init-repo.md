@@ -47,5 +47,5 @@ Before any commit it is recommended to test the script locally. Navigate to an e
 Start powershell.exe with elevated user rights in any writeable directory and copy/paste following:
 
 ```
-Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Oriflame/devops/master/scripts/init-repo.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/Oriflame/devops/master/scripts/init-repo.ps1'))
 ```

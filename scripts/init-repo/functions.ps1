@@ -36,7 +36,7 @@ function Install-Choco
     if ((Get-Command -Name choco -ErrorAction SilentlyContinue) -eq $null)
     {
         Set-ExecutionPolicy Bypass -Scope Process -Force;
-        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
         if ((Get-Command -Name choco -ErrorAction SilentlyContinue) -eq $null)
         {
             Write-Warning 'Unable to find [choco] command. Try restarting the powershell console and run again the whole script.'

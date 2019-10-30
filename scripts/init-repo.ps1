@@ -44,12 +44,12 @@ function GetResource ([string]$nameOfScript)
 }
 
 #import functions from remote/local repo
-iex (GetResource -nameOfScript branchpermissions.ps1)
-iex (GetResource -nameOfScript branchpolicies.ps1)
-iex (GetResource -nameOfScript cibuild.ps1)
-iex (GetResource -nameOfScript functions.ps1)
-iex (GetResource -nameOfScript gitrepo.ps1)
-iex (GetResource -nameOfScript prerequisities.ps1)
+Invoke-Expression (GetResource -nameOfScript branchpermissions.ps1)
+Invoke-Expression (GetResource -nameOfScript branchpolicies.ps1)
+Invoke-Expression (GetResource -nameOfScript cibuild.ps1)
+Invoke-Expression (GetResource -nameOfScript functions.ps1)
+Invoke-Expression (GetResource -nameOfScript gitrepo.ps1)
+Invoke-Expression (GetResource -nameOfScript prerequisities.ps1)
 
 #import&check resources from remote/local repo
 $branchPoliciesForDevelop = GetResource -nameOfScript resources/branch-policies-develop.json | ConvertFrom-Json
