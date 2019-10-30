@@ -38,7 +38,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force;
 
 function GetResource ([string]$nameOfScript)
 {
-    $url = "${DependenciesRepositoryUrl}$nameOfScript";
+    $url = "$($DependenciesRepositoryUrl.TrimEnd('/'))/$nameOfScript";
     Write-Verbose "Downloading resource $url";
     return (New-Object System.Net.WebClient).DownloadString($url);
 }
