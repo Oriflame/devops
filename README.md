@@ -1,5 +1,5 @@
 # devops
-Tools, build pipelines etc for Azure DEVOPS. Project follows [gitflow]() for development&releases.
+Tools, build pipelines etc for Azure DEVOPS. Project follows [gitflow](https://datasift.github.io/gitflow/IntroducingGitFlow.html) for development&releases.
 
 ## Scripts
 
