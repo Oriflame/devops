@@ -31,6 +31,9 @@ function Invoke-InitRepoSectionBranchPermissions
         return;
     }
 
+    Write-Output 'Getting status for TF and login to Azure DEVOPS if needed...'
+    &$tfExe status /collection:$azureDevOpsCollection
+
     # see https://docs.microsoft.com/en-us/azure/devops/repos/git/require-branch-folders?view=azure-devops&tabs=browser
     Write-Output 'Cleaning previous explicit permissions ...'
     &$tfExe git permission /remove:* /group:[$DevOpsProject]\Contributors /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName | Out-Null
