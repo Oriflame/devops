@@ -18,6 +18,7 @@ It does following (you need to confirm every action):
 * it updates proper rights in the repo
   * contributors are allowed to create branches only under feature/* and user/*
   * only project admins can create release/* branches.
+* it checks for CI build (named like '{branchName}-CI') id. *TODO: it creates the build if not exists**
 * it creates proper policies over **develop** and **master** branches (existing policies will be removed):
   * for each branch see scripts/init-repo/resources/branch-policies-{branchname}.json
   * it requires CI build to be successful for every pull request (PR) to develop, master
