@@ -57,7 +57,7 @@ function Invoke-InitRepoSectionInitBranchPolicies
 
 
     Write-Output 'creating standard repository policies...'
-
+    $tmpPolicyFile = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(),'tmpPolicyConfig.json');
     foreach($policy in $branchPolicies)
     {
         Write-Output "Preparing template policy $($policy.type.displayName)..."
