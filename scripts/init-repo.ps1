@@ -79,26 +79,26 @@ if ([string]::IsNullOrEmpty($RepositoryName))
 [string]$tfExe = '';
 
 Invoke-InitRepoSectionPrerequisities -success ([ref]$success) -tfExe ([ref]$tfExe);
-if (ErrorOccurred -success ([ref]$success)){return;}
+if (Test-FailureOrReset -success ([ref]$success)){return;}
 
 Invoke-InitRepoSectionGitRepo -success ([ref]$success);
-if (ErrorOccurred -success ([ref]$success)){return;}
+if (Test-FailureOrReset -success ([ref]$success)){return;}
 
 Invoke-InitRepoSectionBranchPermissions -success ([ref]$success) -tfExe $tfExe;
-if (ErrorOccurred -success ([ref]$success)){return;}
+if (Test-FailureOrReset -success ([ref]$success)){return;}
 
 Write-Output '********* AZ CLI LOGIN *********'
 az login | Out-Null; #TODO: too chatty output..its not easy to reduce :(
 
 [int] $ciBuildId = -1
 Invoke-InitRepoSectionInitCIBuild -success ([ref]$success) -ciBuildId ([ref]$ciBuildId);
-if (ErrorOccurred -success ([ref]$success)){return;}
+if (Test-FailureOrReset -success ([ref]$success)){return;}
 
 Invoke-InitRepoSectionInitBranchPolicies -success ([ref]$success) -ciBuildId $ciBuildId -branchName develop -branchPolicies $branchPoliciesForDevelop;
-if (ErrorOccurred -success ([ref]$success)){return;}
+if (Test-FailureOrReset -success ([ref]$success)){return;}
 
 Invoke-InitRepoSectionInitBranchPolicies -success ([ref]$success) -ciBuildId $ciBuildId -branchName master -branchPolicies $branchPoliciesForMaster;
-if (ErrorOccurred -success ([ref]$success)){return;}
+if (Test-FailureOrReset -success ([ref]$success)){return;}
 
 Write-Output ''
 Write-Output 'Initialization of the repo successfully finished.'

@@ -45,7 +45,7 @@ function Install-Choco
     }
 }
 
-function ErrorOccurred
+function Test-FailureOrReset
 {
     [cmdletbinding()]
     param
