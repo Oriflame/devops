@@ -26,4 +26,4 @@ steps:
   inputs:
     projects: '${{ parameters.pathToProjects }}'
     arguments: '--configuration ${{ parameters.buildConfiguration }} --no-restore '
-  condition: and(succeeded(), ne(variables['useSonarQube'], 'true'))
+  condition: succeeded()
