@@ -101,4 +101,4 @@ Invoke-InitRepoSectionInitBranchPolicies -success ([ref]$success) -ciBuildId $ci
 if (ErrorOccurred -success ([ref]$success)){return;}
 
 Write-Output ''
-Write-Output 'EVERYTHING OK'
+Write-Output 'Initialization of the repo successfully finished.'
