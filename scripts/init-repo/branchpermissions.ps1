@@ -23,6 +23,14 @@ function Invoke-InitRepoSectionBranchPermissions
     )
     Write-Output '********* init GIT branch permissions *********'
 
+    
+    $message  = "Re-creating permissions for repository $RepositoryName";
+    $question = "We need to remove all existing permissions for repository $RepositoryName and create new, standardized. Is this OK?";
+    if (!(PromptUserYN -Message $message -Question $question))
+    {
+        return;
+    }
+
     # see https://docs.microsoft.com/en-us/azure/devops/repos/git/require-branch-folders?view=azure-devops&tabs=browser
     Write-Output 'Cleaning previous explicit permissions ...'
     &$tfExe git permission /remove:* /group:[$DevOpsProject]\Contributors /collection:$azureDevOpsCollection /teamproject:$DevOpsProject /repository:$RepositoryName | Out-Null

@@ -35,7 +35,14 @@ function Invoke-InitRepoSectionInitBranchPolicies
         [Parameter(Mandatory=$true)]
         $branchPolicies
     )
-    Write-Output "********* init branch policies for $branchName *********"
+    Write-Output "********* init branch policies for $RepositoryName/$branchName *********"
+
+    $message  = "Re-creating policies for $RepositoryName/$branchName";
+    $question = "We need to remove all existing policies for $RepositoryName/$branchName and create new, standardized. Is this OK?";
+    if (!(PromptUserYN -Message $message -Question $question))
+    {
+        return;
+    }
 
     #see also https://www.visualstudiogeeks.com/azure/devops/azure-devops-cli-to-view-branch-policies
     Write-Output 'getting repository...'

@@ -60,6 +60,12 @@ function Invoke-InitRepoSectionGitRepo
     $currentBranches=git branch;
     if (!(($currentBranches |% {$_.Trim().Replace('*','')}) -contains 'develop'))
     {
+        $message  = "New branch 'develop'";
+        $question = "We need to create new 'develop' branch. Is this OK?";
+        if (!(PromptUserYN -Message $message -Question $question))
+        {
+            return;
+        }
         #we do not have develop branch created, let's create it
         git branch develop
         if ($LASTEXITCODE -ne 0)
