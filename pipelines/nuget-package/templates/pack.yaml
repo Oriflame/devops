@@ -1,0 +1,21 @@
+# about this template: it contains steps needed for restoring and building the solution
+
+# guidance for parameters:
+# - all of parameters should be passed from calling pipeline
+# - all parameters are replaced in the template when the template is loaded = it's a simple replace
+# - therefore all usages needs to be surrounded by ''
+
+parameters:
+  pathToProjects: '! need to be set by pipeline !' # sample value: '$(Build.SourcesDirectory)/src/**/*.csproj'
+  buildConfiguration: '! need to be set by pipeline !' #sample value: 'release'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Pack
+  inputs:
+    command: pack
+    searchPatternPack: '${{ parameters.pathToProjects }}' #TODO: seems like this path is ignored.. see "searchPatternPack" when DEBUG is on...
+    configuration: '${{ parameters.buildConfiguration }}'
+    nobuild: true
+    includesymbols: true
+    verbosityPack: minimal

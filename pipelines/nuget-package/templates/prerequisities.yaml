@@ -1,0 +1,21 @@
+# about this template: it contains steps needed for downloading pre-requisities
+
+# guidance for parameters:
+# - all of parameters should be passed from calling pipeline
+# - all parameters are replaced in the template when the template is loaded = it's a simple replace
+# - therefore all usages needs to be surrounded by ''
+
+parameters:
+  dotnetcoreversion: '2.2.402'
+  nugetversion: '5.3.0'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk ${{ parameters.dotnetcoreversion }}'
+  inputs:
+    version: ${{ parameters.dotnetcoreversion }}
+
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet ${{ parameters.nugetversion }}'
+  inputs:
+    versionSpec: ${{ parameters.nugetversion }}
