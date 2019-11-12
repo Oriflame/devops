@@ -1,0 +1,23 @@
+# this is a CI build that tests changes among build templates
+# if succesfull it tags with a new version (based on branch). It should follow gitflow strategy.
+
+pr:
+- master
+- develop
+
+jobs:
+
+# test default pipeline
+- template: pipelines/nuget-package/default-ci-pipeline.yaml
+  parameters:
+    jobName: 'BuildWithLinux'
+
+# test pipeline with parameters
+- template: pipelines/nuget-package/default-ci-pipeline.yaml
+  parameters:
+    vmImage: 'windows-2019'
+    dotnetcoreversion: 2.2.x
+    nugetversion: 5.2.0
+    pushpackage: true
+    nugetDevOpsFeedToPublish: 'ba745572-a471-4439-8dc4-e31f8610414b'
+    jobName: 'BuildWithWin2019'
