@@ -16,7 +16,7 @@ jobs:
 - template: pipelines/nuget-package/default-ci-pipeline.yaml
   parameters:
     vmImage: 'windows-2019'
-    dotnetcoreversion: 2.2.*
+    dotnetcoreversion: 2.2.x
     nugetversion: 5.2.0
     pushpackage: true
     nugetDevOpsFeedToPublish: 'ba745572-a471-4439-8dc4-e31f8610414b'
