@@ -1,0 +1,83 @@
+[
+    {
+        "isBlocking": true,
+        "isDeleted": false,
+        "isEnabled": true,
+        "settings": {
+            "buildDefinitionId": -1,
+            "displayName": null,
+            "manualQueueOnly": false,
+            "queueOnSourceUpdateOnly": true,
+            "scope": [
+                {
+                    "matchKind": "Exact",
+                    "refName": "refs/heads/develop",
+                    "repositoryId": "00000000-0000-0000-0000-000000000000"
+                }
+            ],
+            "validDuration": 720.0
+        },
+        "type": {
+            "displayName": "Build",
+            "id": "0609b952-1397-4640-95ec-e00a01b2c241"
+        }
+    },
+    {
+        "isBlocking": true,
+        "isDeleted": false,
+        "isEnabled": true,
+        "settings": {
+            "scope": [
+                {
+                    "matchKind": "Exact",
+                    "refName": "refs/heads/develop",
+                    "repositoryId": "00000000-0000-0000-0000-000000000000"
+                }
+            ]
+        },
+        "type": {
+            "displayName": "Comment requirements",
+            "id": "c6a1889d-b943-4856-b76f-9e46bb6b0df2"
+        }
+    },
+    {
+        "isBlocking": true,
+        "isDeleted": false,
+        "isEnabled": true,
+        "settings": {
+            "scope": [
+                {
+                    "matchKind": "Exact",
+                    "refName": "refs/heads/develop",
+                    "repositoryId": "00000000-0000-0000-0000-000000000000"
+                }
+            ]
+        },
+        "type": {
+            "displayName": "Work item linking",
+            "id": "40e92b44-2fe1-4dd6-b3d8-74a9c21d0c6e"
+        }
+    },
+    {
+        "isBlocking": true,
+        "isDeleted": false,
+        "isEnabled": true,
+        "settings": {
+            "allowDownvotes": false,
+            "creatorVoteCounts": false,
+            "minimumApproverCount": 1,
+            "resetOnSourcePush": true,
+            "scope": [
+                {
+                    "matchKind": "Exact",
+                    "refName": "refs/heads/develop",
+                    "repositoryId": "00000000-0000-0000-0000-000000000000"
+                }
+            ]
+        },
+        "type": {
+            "displayName": "Minimum number of reviewers",
+            "id": "fa4e907d-c16b-4a4c-9dfa-4906e5d171dd"
+        }
+    }
+]
