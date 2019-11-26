@@ -15,6 +15,7 @@ jobs:
 # test pipeline without build and tests
 - template: pipelines/nuget-package/default-ci-pipeline.yaml
   parameters:
+    jobName: 'WithoutBuild'
     noBuild: 'true'
     noUnitTests: 'true'
 

@@ -14,15 +14,15 @@ parameters:
 
 steps:
 
-- ${{ if ne(parameters.noBuild, 'true') }}:
-  - task: DotNetCoreCLI@2
-    displayName: Restore
-    inputs:
-      command: restore
-      projects: '${{ parameters.pathToProjects }}'
-      vstsFeed: '${{ parameters.nugetFeedFromDevops }}'
-      verbosityRestore: '${{ parameters.verbosityRestore }}'
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '${{ parameters.pathToProjects }}'
+    vstsFeed: '${{ parameters.nugetFeedFromDevops }}'
+    verbosityRestore: '${{ parameters.verbosityRestore }}'
 
+- ${{ if ne(parameters.noBuild, 'true') }}:
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
