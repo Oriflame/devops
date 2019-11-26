@@ -19,6 +19,7 @@ jobs:
     pathToProjects: '$(Build.SourcesDirectory)/src/EmptySampleProject.NoAssembly/EmptySampleProject.NoAssembly.csproj'
     noBuild: 'true'
     noUnitTests: 'true'
+    pushpackage: true
 
 # test pipeline with parameters
 - template: pipelines/nuget-package/default-ci-pipeline.yaml
