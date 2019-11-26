@@ -10,20 +10,22 @@ parameters:
   nugetFeedFromDevops: '! need to be set by pipeline !' #sample value: '/123789456-aaaa-1111-1234-1237894560'
   verbosityRestore: '! need to be set by pipeline !' #sample value: 'Minimal'
   buildConfiguration: '! need to be set by pipeline !' #sample value: 'release'
+  noBuild: '! need to be set by pipeline !' #sample value: 'false'
 
 steps:
 
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '${{ parameters.pathToProjects }}'
-    vstsFeed: '${{ parameters.nugetFeedFromDevops }}'
-    verbosityRestore: '${{ parameters.verbosityRestore }}'
+- ${{ if ne(parameters.noBuild, 'true') }}:
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: '${{ parameters.pathToProjects }}'
+      vstsFeed: '${{ parameters.nugetFeedFromDevops }}'
+      verbosityRestore: '${{ parameters.verbosityRestore }}'
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '${{ parameters.pathToProjects }}'
-    arguments: '--configuration ${{ parameters.buildConfiguration }} --no-restore '
-  condition: succeeded()
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      projects: '${{ parameters.pathToProjects }}'
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --no-restore '
+    condition: succeeded()
