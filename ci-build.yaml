@@ -12,6 +12,16 @@ jobs:
   parameters:
     jobName: 'BuildWithLinux'
 
+# test pipeline without build and tests
+- template: pipelines/nuget-package/default-ci-pipeline.yaml
+  parameters:
+    jobName: 'WithoutBuild'
+    pathToProjects: '$(Build.SourcesDirectory)/src/EmptySampleProject.NoAssembly/EmptySampleProject.NoAssembly.csproj'
+    noBuild: 'true'
+    noUnitTests: 'true'
+    pushpackage: true
+    vmImage: 'windows-2019'
+
 # test pipeline with parameters
 - template: pipelines/nuget-package/default-ci-pipeline.yaml
   parameters:
