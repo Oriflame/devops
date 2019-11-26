@@ -16,6 +16,7 @@ jobs:
 - template: pipelines/nuget-package/default-ci-pipeline.yaml
   parameters:
     jobName: 'WithoutBuild'
+    pathToProjects: '$(Build.SourcesDirectory)/src/EmptySampleProject.NoAssembly/EmptySampleProject.NoAssembly.csproj'
     noBuild: 'true'
     noUnitTests: 'true'
 
