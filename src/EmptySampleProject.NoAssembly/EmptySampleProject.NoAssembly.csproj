@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.Build.NoTargets/1.0.88">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="README.md" />
+  </ItemGroup>
+
+</Project>
