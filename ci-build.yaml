@@ -12,6 +12,12 @@ jobs:
   parameters:
     jobName: 'BuildWithLinux'
 
+# test pipeline without build and tests
+- template: pipelines/nuget-package/default-ci-pipeline.yaml
+  parameters:
+    noBuild: 'true'
+    noUnitTests: 'true'
+
 # test pipeline with parameters
 - template: pipelines/nuget-package/default-ci-pipeline.yaml
   parameters:
