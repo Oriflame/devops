@@ -19,7 +19,7 @@ steps:
     inputs:
       command: test
       projects: '${{ parameters.pathToTestProjects }}'
-      arguments: '--configuration ${{ parameters.buildConfiguration }} --logger trx --results-directory $(Build.StagingDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --no-restore --logger trx --results-directory $(Build.StagingDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
       publishTestResults: false
   
   - task: PublishTestResults@2
