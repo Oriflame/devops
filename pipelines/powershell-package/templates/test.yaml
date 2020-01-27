@@ -47,3 +47,16 @@ steps:
       }
     displayName: Run PSScriptAnalyzer
     workingDirectory: ${{ parameters.pathToProjects }}
+
+  - task: richardfennellBM.BM-VSTS-PesterRunner-Task.Pester-Task.Pester@8
+    displayName: 'Pester Test Runner'
+    inputs:
+      scriptFolder: '${{ parameters.pathToProjects }}\*'
+      resultsFile: '$(System.DefaultWorkingDirectory)\TEST-Pester.xml'
+    continueOnError: true
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    inputs:
+      testResultsFormat: NUnit
+      failTaskOnFailedTests: true
