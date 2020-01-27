@@ -7,10 +7,10 @@ steps:
   inputs:
     runtime: 'core'
 
-- script: echo '##vso[task.setvariable variable=Version]$(GitVersion.SemVer)-$(Build.BuildId)'
+- script: echo '##vso[task.setvariable variable=Version]$(GitVersion.SemVer)-$(Build.BuildId)
   displayName: "Set build version (prerelease)"
   condition: and(succeeded(), ne(variables['GitVersion.NuGetPreReleaseTag'], ''))
 
-- script: echo '##vso[task.setvariable variable=Version]$(GitVersion.SemVer)'
+- script: echo '##vso[task.setvariable variable=Version]$(GitVersion.SemVer)
   displayName: "Set build version (release)"
   condition: and(succeeded(), eq(variables['GitVersion.NuGetPreReleaseTag'], ''))
