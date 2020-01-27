@@ -42,7 +42,7 @@ jobs:
       dotnetcoreversion: '${{ parameters.dotnetcoreversion }}'
       nugetversion: '${{ parameters.nugetversion }}'
 
-  - template: templates/gitversion.yaml
+  - template: ../shared-templates/gitversion.yaml
 
   - template: templates/build.yaml
     parameters:

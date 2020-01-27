@@ -1,0 +1,100 @@
+parameters:
+  pathToProjects: '$(Build.SourcesDirectory)/src/'
+
+steps:
+- pwsh: |
+    $moduleName = '$(Build.Repository.Name)'
+    $moduleVersion = '$(Version)'
+
+    $moduleManifestFile = "./$moduleName.psd1"
+    $nuspecFullName = "./$moduleName.nuspec"
+    $moduleTagModule = 'PSModule'
+    $moduleTagIncludesFunction = 'PSIncludes_Function'
+    $moduleTagFunction = 'PSFunction'
+    $moduleTagCommand = 'PSCommand'
+
+    $moduleManifest = Test-ModuleManifest -Path $moduleManifestFile
+    $moduleDescription = $moduleManifest.Description
+    $moduleAuthor = $moduleManifest.Author
+    $moduleOwner = $moduleManifest.CompanyName
+    $moduleCopyright = $moduleManifest.Copyright
+
+    $moduleTagsList =  New-Object System.Collections.ArrayList
+    $moduleTagsList.Add($moduleTagModule)
+
+    if($moduleManifest.ExportedFunctions -and $moduleManifest.ExportedFunctions.Count -gt 0){
+      $null = $moduleTagsList.Add($moduleTagIncludesFunction)
+    }
+
+    $moduleManifest.ExportedFunctions.GetEnumerator() | ForEach-Object {
+      $key = $_.Key
+      $tagTemplate = '{0}_{1}'
+      $tagFunc = $tagTemplate -f $moduleTagFunction, $key
+      $tagCmd = $tagTemplate -f $moduleTagCommand, $key
+      $null = $moduleTagsList.Add($tagFunc)
+      $null = $moduleTagsList.Add($tagCmd)
+    }
+
+    $moduleTagsString = $moduleTagsList -join ' '
+    $metaDataElementsHash = [ordered]@{
+      id                       = $moduleName
+      version                  = $moduleVersion
+      description              = $moduleDescription
+      authors                  = $moduleAuthor
+      owners                   = $moduleOwner
+      releaseNotes             = $ReleaseNotes
+      requireLicenseAcceptance = 'false'
+      copyright                = $moduleCopyright
+      tags                     = $moduleTagsString
+    }
+
+    #create nuspec file
+    $nameSpaceUri = "http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+    [xml]$xml = New-Object System.Xml.XmlDocument
+
+    $xmlDeclaration = $xml.CreateXmlDeclaration("1.0", "utf-8", $null)
+    $xml.AppendChild($xmlDeclaration) | Out-Null
+
+    #create top-level elements
+    $packageElement = $xml.CreateElement("package", $nameSpaceUri)
+    $metaDataElement = $xml.CreateElement("metadata", $nameSpaceUri)
+
+    foreach ($key in $metaDataElementsHash.Keys) {
+      $element = $xml.CreateElement($key, $nameSpaceUri)
+      $elementInnerText = $metaDataElementsHash.item($key)
+      $element.InnerText = $elementInnerText
+      $metaDataElement.AppendChild($element) | Out-Null
+    }
+
+    #required modules
+    if ($moduleManifest.RequiredModules -and $moduleManifest.RequiredModules.Count -gt 0) {
+      $dependenciesElement = $xml.CreateElement("dependencies", $nameSpaceUri)
+
+      $moduleManifest.RequiredModules.GetEnumerator() | ForEach-Object {
+        $moduleDependency = $_
+
+        $element = $xml.CreateElement("dependency", $nameSpaceUri)
+        $element.SetAttribute("id", $moduleDependency.Name)
+        if ($moduleDependency.Version) { $element.SetAttribute("version", $moduleDependency.Version.ToString()) }
+
+        $dependenciesElement.AppendChild($element) | Out-Null
+      }
+
+      $metaDataElement.AppendChild($dependenciesElement) | Out-Null
+    }
+
+    $packageElement.AppendChild($metaDataElement) | Out-Null
+    $xml.AppendChild($packageElement) | Out-Null
+
+    #save nuspec file
+    $xml.save($nuspecFullName)
+  displayName: Create .nuspec File
+  workingDirectory: '${{ parameters.pathToProjects }}'
+
+- task: NuGetCommand@2
+  displayName: NuGet Pack
+  inputs:
+    command: pack
+    packagesToPack: './src/$(Build.Repository.Name).nuspec' # FIXME: Should be ./$(Build.Repository.Name).nuspec, but not working.
+    verbosityPack: Detailed
+    basePath: ${{ parameters.pathToProjects }}

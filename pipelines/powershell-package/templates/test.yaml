@@ -1,0 +1,49 @@
+# About this template
+# It contains steps needed for testing powershell module with PSScriptAnalyzer
+
+parameters:
+  pathToProjects: '$(Build.SourcesDirectory)/src/'
+  excludeRules: [] # List of rules. See https://github.com/PowerShell/PSScriptAnalyzer/tree/master/RuleDocumentation
+  noUnitTests: 'false'
+
+steps:
+- ${{ if ne(parameters.noUnitTests, 'true') }}:
+  - pwsh: Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force
+    displayName: Install PSScriptAnalyzer
+
+  - pwsh: |
+      function Write-Issue {
+        [CmdletBinding()]
+        Param(
+          [Parameter(Mandatory = $true)]
+          [Microsoft.Windows.PowerShell.ScriptAnalyzer.Generic.DiagnosticRecord]
+          $Record
+        )
+
+        if ('Information' -eq $Record.Severity) {
+          $Record.Severity = 'Warning'
+        }
+
+        # https://docs.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash#logissue-log-an-error-or-warning
+        Write-Host "##vso[task.LogIssue type=$($Record.Severity.ToString().ToLower());sourcepath=$($Record.ScriptName);linenumber=$($Record.Line);code=$($Record.RuleName)]$($Record.Message)"
+      }
+
+      $rules = "${{ join(' ', parameters.excludeRules) }}" -Split " "
+
+      if ("" -eq $rules[0]) {
+        $rules = @()
+      }
+
+      $records = Invoke-ScriptAnalyzer . -Recurse -ExcludeRule $rules
+
+      # This is not working for classes referenced in the same module
+      # https://github.com/PowerShell/PSScriptAnalyzer/issues/1064
+      $filtered = $records | Where-Object { 'TypeNotFound' -ne $_.RuleName }
+
+      $filtered | ForEach-Object { Write-Issue -Record $_ }
+
+      if ($filtered.Count -gt 0) {
+        Write-Host "##vso[task.complete result=Failed;]PSScriptAnalyzer found $($filtered.Count) violations of formating rules."
+      }
+    displayName: Run PSScriptAnalyzer
+    workingDirectory: ${{ parameters.pathToProjects }}

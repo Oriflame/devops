@@ -1,0 +1,7 @@
+parameters:
+  pathToProjects: '$(Build.SourcesDirectory)/src/'
+
+steps:
+- pwsh: Import-Module ./*.psd1
+  displayName: Register Powershell Module
+  workingDirectory: ${{ parameters.pathToProjects }}
