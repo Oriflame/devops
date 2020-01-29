@@ -31,3 +31,9 @@ jobs:
     pushpackage: true
     nugetDevOpsFeedToPublish: 'ba745572-a471-4439-8dc4-e31f8610414b'
     jobName: 'BuildWithWin2019'
+
+# test powershell pipeline
+- template: pipelines/powershell-package/default-ci-pipeline.yaml
+  parameters:
+    pushpackage: true
+    jobName: 'BuildPowershellPackage'
