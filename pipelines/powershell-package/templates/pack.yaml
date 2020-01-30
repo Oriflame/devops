@@ -98,6 +98,6 @@ steps:
   displayName: NuGet Pack
   inputs:
     command: pack
-    packagesToPack: './*.nuspec' # FIXME: Should be ./$(Build.Repository.Name).nuspec, but not working.
+    packagesToPack: './**/*.nuspec'
     verbosityPack: Detailed
     basePath: ${{ parameters.pathToProjects }}
