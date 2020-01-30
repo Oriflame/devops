@@ -35,5 +35,6 @@ jobs:
 # test powershell pipeline
 - template: pipelines/powershell-package/default-ci-pipeline.yaml
   parameters:
+    pathToProjects: '$(Build.SourcesDirectory)/src/EmptySampleProject.Powershell/'
     pushpackage: true
     jobName: 'BuildPowershellPackage'
