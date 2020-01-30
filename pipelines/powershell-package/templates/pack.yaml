@@ -1,3 +1,6 @@
+# About this template
+# It contains steps needed for creating .nuspec file and packing whole module into NuGet package
+
 parameters:
   pathToProjects: '$(Build.SourcesDirectory)/src/'
 
@@ -95,6 +98,6 @@ steps:
   displayName: NuGet Pack
   inputs:
     command: pack
-    packagesToPack: './src/$(Build.Repository.Name).nuspec' # FIXME: Should be ./$(Build.Repository.Name).nuspec, but not working.
+    packagesToPack: './*.nuspec' # FIXME: Should be ./$(Build.Repository.Name).nuspec, but not working.
     verbosityPack: Detailed
     basePath: ${{ parameters.pathToProjects }}

@@ -1,3 +1,10 @@
+# About this template
+# [default] pipeline for NuGet package Powershell project, use for [master] branch
+# Suitable for simplified gitflow =>
+# Branch under /feature folder: no package is created by default by CI, if needed, specify pack variable => ALPHA version will be created
+# develop branch => -prerelease-XX package is created and pushed to GlobalDev
+# master branch => stable version x.x.0 is pushed to GlobalDev
+
 parameters:
   excludeRules: [] # List of rules. See https://github.com/PowerShell/PSScriptAnalyzer/tree/master/RuleDocumentation
   nugetversion: '5.4.0'

@@ -1,4 +1,5 @@
-# about this template: it contains steps needed for downloading pre-requisities
+# About this template
+# It contains steps needed for downloading pre-requisities
 
 parameters:
   nugetversion: '5.4.0'

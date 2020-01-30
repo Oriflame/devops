@@ -1,9 +1,5 @@
-# about this template: it contains steps needed for pushing the package
-
-# guidance for parameters:
-# - all of parameters should be passed from calling pipeline
-# - all parameters are replaced in the template when the template is loaded = it's a simple replace
-# - therefore all usages needs to be surrounded by ''
+# About this template
+# It contains steps needed for pushing the NuGet package
 
 parameters:
   pushpackage: 'false'
@@ -12,7 +8,7 @@ parameters:
 steps:
 - ${{ if eq(parameters.pushpackage, 'true') }}:
   - task: DotNetCoreCLI@2
-    displayName: 'NuGet push'
+    displayName: 'NuGet Push'
     inputs:
       command: push
       packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
