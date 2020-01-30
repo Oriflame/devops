@@ -7,6 +7,6 @@ function Edit-Gender {
         [Parameter(Mandatory = $true)]
         [Sex] $NewGender
     )
-    
+
     $Person.Sex = $NewGender
 }
