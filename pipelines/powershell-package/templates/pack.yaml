@@ -5,7 +5,7 @@ steps:
 - pwsh: |
     $moduleVersion = '$(Version)'
 
-    $moduleManifestFile = "./*.psd1"
+    $moduleManifestFile = "*.psd1"
     $moduleName = (Get-Item "$moduleManifestFile").Basename
     $nuspecFullName = "./$moduleName.nuspec"
     $moduleTagModule = 'PSModule'

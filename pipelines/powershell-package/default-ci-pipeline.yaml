@@ -25,10 +25,15 @@ jobs:
     parameters:
       pathToProjects: '${{ parameters.pathToProjects }}'
 
-  - template: templates/test.yaml
+  - template: templates/ps-analyze.yaml
     parameters:
       pathToProjects: '${{ parameters.pathToProjects }}'
       excludeRules: '${{ parameters.excludeRules }}'
+      noUnitTests: '${{ parameters.noUnitTests }}'
+
+  - template: templates/test.yaml
+    parameters:
+      pathToProjects: '${{ parameters.pathToProjects }}'
       noUnitTests: '${{ parameters.noUnitTests }}'
 
   - template: templates/pack.yaml
