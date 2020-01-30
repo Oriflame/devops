@@ -10,7 +10,7 @@ steps:
 
     $moduleManifestFile = "*.psd1"
     $moduleName = (Get-Item "$moduleManifestFile").Basename
-    $nuspecFullName = "./$moduleName.symbols.nuspec"
+    $nuspecFullName = "./$moduleName.nuspec"
     $moduleTagModule = 'PSModule'
     $moduleTagIncludesFunction = 'PSIncludes_Function'
     $moduleTagFunction = 'PSFunction'

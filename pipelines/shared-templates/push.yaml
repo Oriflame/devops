@@ -7,12 +7,18 @@
 
 parameters:
   nugetDevOpsFeedToPublish: '! need to be set by pipeline !' #sample value: '/123789456-aaaa-1111-1234-1237894560'
+  withSymbols: true
+
+variables:
+  ${{ if parameters.withSymbols }}:
+    symbols: '.symbols'
 
 steps:
 - task: DotNetCoreCLI@2
   displayName: 'NuGet Push'
   inputs:
     command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*$(symbols).nupkg'
     publishVstsFeed: '${{ parameters.nugetDevOpsFeedToPublish }}'
   condition: and(succeeded(), eq(variables['pushpackage'], 'true'))
+  
