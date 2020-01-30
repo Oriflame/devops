@@ -3,10 +3,10 @@ parameters:
 
 steps:
 - pwsh: |
-    $moduleName = '$(Build.Repository.Name)'
     $moduleVersion = '$(Version)'
 
-    $moduleManifestFile = "./$moduleName.psd1"
+    $moduleManifestFile = "./*.psd1"
+    $moduleName = (Get-Item "$moduleManifestFile").Basename
     $nuspecFullName = "./$moduleName.nuspec"
     $moduleTagModule = 'PSModule'
     $moduleTagIncludesFunction = 'PSIncludes_Function'
