@@ -13,6 +13,6 @@ steps:
   displayName: 'NuGet Push'
   inputs:
     command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
     publishVstsFeed: '${{ parameters.nugetDevOpsFeedToPublish }}'
   condition: and(succeeded(), eq(variables['pushpackage'], 'true'))
