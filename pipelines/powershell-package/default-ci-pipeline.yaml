@@ -55,4 +55,4 @@ jobs:
     parameters:
       nugetDevOpsFeedToPublish: '${{ parameters.nugetDevOpsFeedToPublish }}'
       pushpackage: '${{ parameters.pushpackage }}'
-      symbols: ''
+      packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg'
