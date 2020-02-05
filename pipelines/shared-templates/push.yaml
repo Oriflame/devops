@@ -1,4 +1,4 @@
-# about this template: it contains steps needed for pushing the package
+# About this template: it contains steps needed for pushing the package
 
 # guidance for parameters:
 # - all of parameters should be passed from calling pipeline
@@ -7,12 +7,14 @@
 
 parameters:
   nugetDevOpsFeedToPublish: '! need to be set by pipeline !' #sample value: '/123789456-aaaa-1111-1234-1237894560'
+  packagesToPush: '$(Build.ArtifactStagingDirectory)/*symbols.nupkg'
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'NuGet push'
+  displayName: 'NuGet Push'
   inputs:
     command: push
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
+    packagesToPush: '${{ parameters.packagesToPush }}'
     publishVstsFeed: '${{ parameters.nugetDevOpsFeedToPublish }}'
   condition: and(succeeded(), eq(variables['pushpackage'], 'true'))
+  

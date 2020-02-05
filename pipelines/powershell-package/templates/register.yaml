@@ -1,0 +1,10 @@
+# About this template
+# This template tests, if the Powershell module can be imported
+
+parameters:
+  pathToProjects: '$(Build.SourcesDirectory)/src/'
+
+steps:
+- powershell: Import-Module ./*.psd1
+  displayName: Testing Import-Module
+  workingDirectory: ${{ parameters.pathToProjects }}

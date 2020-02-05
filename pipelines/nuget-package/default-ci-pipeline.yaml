@@ -42,7 +42,7 @@ jobs:
       dotnetcoreversion: '${{ parameters.dotnetcoreversion }}'
       nugetversion: '${{ parameters.nugetversion }}'
 
-  - template: templates/gitversion.yaml
+  - template: ../shared-templates/gitversion.yaml
 
   - template: templates/build.yaml
     parameters:
@@ -63,6 +63,6 @@ jobs:
       pathToProjects: '${{ parameters.pathToProjects }}'
       buildConfiguration: '${{ parameters.buildConfiguration }}'
 
-  - template: templates/push.yaml
+  - template: ../shared-templates/push.yaml
     parameters:
       nugetDevOpsFeedToPublish: '${{ parameters.nugetDevOpsFeedToPublish }}'

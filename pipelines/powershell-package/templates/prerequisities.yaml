@@ -1,0 +1,11 @@
+# About this template
+# It contains steps needed for downloading pre-requisities
+
+parameters:
+  nugetversion: '5.4.0'
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet ${{ parameters.nugetversion }}'
+  inputs:
+    versionSpec: ${{ parameters.nugetversion }}
