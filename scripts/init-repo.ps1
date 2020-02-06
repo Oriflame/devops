@@ -42,6 +42,18 @@ function GetResource ([string]$nameOfScript)
     return (New-Object System.Net.WebClient).DownloadString($url);
 }
 
+#arguments sanity check
+if ($AzureDevOpsCollection -notlike 'http*//*/*/')
+{
+    if ($AzureDevOpsCollection -like '*/*')
+    {
+        Write-Error 'Wrong parameter AzureDevOpsCollection: Either specify full url (e.g. https://dev.azure.com/oriflame/) or just a name of the collection (e.g. Oriflame)'
+        return;
+    }
+    Write-Verbose "AzureDevOpsCollection argument is not url, combining with devops url like https://dev.azure.com/{AzureDevOpsCollection}/"
+    $AzureDevOpsCollection = "https://dev.azure.com/$AzureDevOpsCollection/"
+}
+
 #import functions from remote/local repo
 Invoke-Expression (GetResource -nameOfScript branchpermissions.ps1)
 Invoke-Expression (GetResource -nameOfScript branchpolicies.ps1)
