@@ -34,7 +34,6 @@ Returns the id of the path to tf.exe.
     if ((Get-Command -Name git -ErrorAction SilentlyContinue) -eq $null)
     {
         $message  = "Unable to find GIT";
-        $LASTEXITCODE = 0;
         $question = 'We need to install GIT (via Chocolatey). Is this OK?';
         if (!(PromptUserYN -Message $message -Question $question))
         {
@@ -54,7 +53,6 @@ Returns the id of the path to tf.exe.
     if (!(Test-Path -Path ($tfExe.Value)))
     {
         $message  = "Unable to find TF";
-        $LASTEXITCODE = 0;
         $question = 'We need to install Team Explorer = TF.EXE (via Chocolatey). Is this OK?';
         if (!(PromptUserYN -Message $message -Question $question))
         {
@@ -73,7 +71,6 @@ Returns the id of the path to tf.exe.
     if ((Get-Command -Name AZ -ErrorAction SilentlyContinue) -eq $null)
     {
         $message  = "Unable to find AZ CLI";
-        $LASTEXITCODE = 0;
         $question = 'We need to install AZ CLI. Is this OK?';
         if (!(PromptUserYN -Message $message -Question $question))
         {

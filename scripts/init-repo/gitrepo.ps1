@@ -35,7 +35,6 @@ function Invoke-InitRepoSectionGitRepo
     }else
     {
         $message  = "Repository not initialized (code: $LASTEXITCODE)";
-        $LASTEXITCODE = 0;
         $question = "We need to download repository and init it in the current folder (sub folder $RepositoryName). Is this OK?";
         if (!(PromptUserYN -Message $message -Question $question))
         {

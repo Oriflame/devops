@@ -32,7 +32,6 @@ param
 )
 $ErrorActionPreference='Stop';
 $Error.Clear();
-$LASTEXITCODE = 0;
 
 Set-ExecutionPolicy Bypass -Scope Process -Force;
 
