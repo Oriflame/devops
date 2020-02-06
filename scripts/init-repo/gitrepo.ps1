@@ -40,7 +40,7 @@ function Invoke-InitRepoSectionGitRepo
         {
             return;
         }
-        git clone $AzureDevOpsGirRepoUrl $RepositoryName;
+        git clone $AzureDevOpsGirRepoUrl;
         if ($LASTEXITCODE -ne 0)
         {
             Write-Warning 'Error during git clone. Please fix the error and restart the script.';
