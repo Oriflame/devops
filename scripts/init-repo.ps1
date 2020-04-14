@@ -32,7 +32,6 @@ param
 )
 $ErrorActionPreference='Stop';
 $Error.Clear();
-$LASTEXITCODE = 0;
 
 Set-ExecutionPolicy Bypass -Scope Process -Force;
 
@@ -41,6 +40,18 @@ function GetResource ([string]$nameOfScript)
     $url = "$($DependenciesRepositoryUrl.TrimEnd('/'))/$nameOfScript";
     Write-Verbose "Downloading resource $url";
     return (New-Object System.Net.WebClient).DownloadString($url);
+}
+
+#arguments sanity check
+if ($AzureDevOpsCollection -notlike 'http*//*/*/')
+{
+    if ($AzureDevOpsCollection -like '*/*')
+    {
+        Write-Error 'Wrong parameter AzureDevOpsCollection: Either specify full url (e.g. https://dev.azure.com/oriflame/) or just a name of the collection (e.g. Oriflame)'
+        return;
+    }
+    Write-Verbose "AzureDevOpsCollection argument is not url, combining with devops url like https://dev.azure.com/{AzureDevOpsCollection}/"
+    $AzureDevOpsCollection = "https://dev.azure.com/$AzureDevOpsCollection/"
 }
 
 #import functions from remote/local repo

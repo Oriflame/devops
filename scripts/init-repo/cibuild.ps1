@@ -28,7 +28,6 @@ function Invoke-InitRepoSectionInitCIBuild
     if ($existingCIBuildPipeline.Count -le 0)
     {
         $message  = "Unable to find $RepositoryName-CI build";
-        $LASTEXITCODE = 0;
         $question = 'We need to create CI build so we can use it later in branch policies. Is this OK?';
         if (!(PromptUserYN -Message $message -Question $question))
         {

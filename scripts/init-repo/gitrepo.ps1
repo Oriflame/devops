@@ -35,13 +35,12 @@ function Invoke-InitRepoSectionGitRepo
     }else
     {
         $message  = "Repository not initialized (code: $LASTEXITCODE)";
-        $LASTEXITCODE = 0;
         $question = "We need to download repository and init it in the current folder (sub folder $RepositoryName). Is this OK?";
         if (!(PromptUserYN -Message $message -Question $question))
         {
             return;
         }
-        git clone $AzureDevOpsGirRepoUrl $RepositoryName;
+        git clone $AzureDevOpsGirRepoUrl;
         if ($LASTEXITCODE -ne 0)
         {
             Write-Warning 'Error during git clone. Please fix the error and restart the script.';
