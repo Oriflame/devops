@@ -5,6 +5,7 @@ parameters:
   nugetversion: '5.4.0'
 
 steps:
+- pwsh: echo Test
 - task: NuGetToolInstaller@1
   displayName: 'Use NuGet ${{ parameters.nugetversion }}'
   inputs:
