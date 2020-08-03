@@ -5,36 +5,5 @@ pr:
 - master
 - develop
 
-jobs:
-
-# test default pipeline
-- template: pipelines/nuget-package/default-ci-pipeline.yaml
-  parameters:
-    jobName: 'BuildWithLinux'
-
-# test pipeline without build and tests
-- template: pipelines/nuget-package/default-ci-pipeline.yaml
-  parameters:
-    jobName: 'WithoutBuild'
-    pathToProjects: '$(Build.SourcesDirectory)/src/EmptySampleProject.NoAssembly/EmptySampleProject.NoAssembly.csproj'
-    noBuild: 'true'
-    noUnitTests: 'true'
-    pushpackage: true
-    vmImage: 'windows-2019'
-
-# test pipeline with parameters
-- template: pipelines/nuget-package/default-ci-pipeline.yaml
-  parameters:
-    vmImage: 'windows-2019'
-    dotnetcoreversion: 2.2.x
-    nugetversion: 5.2.0
-    pushpackage: true
-    nugetDevOpsFeedToPublish: 'ba745572-a471-4439-8dc4-e31f8610414b'
-    jobName: 'BuildWithWin2019'
-
-# test powershell pipeline
-- template: pipelines/powershell-package/default-ci-pipeline.yaml
-  parameters:
-    pathToProjects: '$(Build.SourcesDirectory)/src/EmptySampleProject.Powershell/'
-    pushpackage: true
-    jobName: 'BuildPowershellPackage'
+steps:
+- script: echo Testing!
