@@ -1,0 +1,42 @@
+# Combines parameter and global variable and creates a local variable for further use
+parameters:
+- name: parameterValue
+  type: string
+  default: 'default'
+- name: variableValue
+  type: string
+  default: 'default'
+- name: defaultValue
+  type: string
+- name: variableName
+  type: string
+
+steps:
+- powershell: |
+    $name='${{ parameters.variableName }}'
+    $defaultValue='${{ parameters.defaultValue }}'
+    $parameterValue='${{ parameters.parameterValue }}'
+
+    $value="$defaultValue"
+    if ("$parameterValue" -ne 'default') {
+      Write-Host "Variable: $name, value (from parameter): $parameterValue"
+      $value=$parameterValue
+    }
+    else {
+      try { 
+        $variableValue="${{ parameters.variableValue }}"
+        Write-Host "Variable: $name, value (from variable): $variableValue"
+        $value=$variableValue
+      }
+      catch { 
+        Write-Host "Variable: $name, value (default): $defaultValue"
+        $value=$defaultValue
+      }
+    }
+
+    Write-Output "parameterValue: '$parameterValue'"
+    Write-Output "variableValue: '$variableValue'"
+    Write-Output "defaultValue: '$defaultValue'"
+
+    Write-Output "##vso[task.setvariable variable=$name;]$value"
+  displayName: Initialize ${{ parameters.variableName }}
